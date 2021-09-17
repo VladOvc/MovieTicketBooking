@@ -37,6 +37,8 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
+                        BookTicket(movies);
+
                         break;
 
                     case ConsoleKey.D2:
@@ -103,6 +105,14 @@ namespace MovieTicketBooking
 
             RenderMoviesTable(movies);
             RenderMainMenu();
+        }
+        private static void BookTicket(List<Movie> movies)
+        {
+            RenderMoviesTable(movies);
+
+            var numberMovie = int.Parse(Console.ReadLine());
+
+
         }
     }
 
