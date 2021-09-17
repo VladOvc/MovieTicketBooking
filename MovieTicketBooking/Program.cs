@@ -33,11 +33,12 @@ namespace MovieTicketBooking
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Backspace:
+                        Environment.Exit(0);
                         break;
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        BookTicket(movies);
+                        
 
                         break;
 
@@ -49,7 +50,7 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        Environment.Exit(0);
+                        BookTicket(movies);
                         break;
                 }
             }
@@ -108,11 +109,34 @@ namespace MovieTicketBooking
         }
         private static void BookTicket(List<Movie> movies)
         {
+            Console.Clear();
+
+            string nameMovie;
+            string firstName;
+            string lastName;
+            string phoneNumber;
+            int numberOfReservedSeats;
+
             RenderMoviesTable(movies);
 
             var numberMovie = int.Parse(Console.ReadLine());
 
+            nameMovie = movies[numberMovie - 1].Title;
 
+            Console.Clear();
+
+            Console.WriteLine($"You have selected a movie called: {nameMovie}");
+            Console.WriteLine("Enter your first name for booking");
+            firstName = Console.ReadLine();
+
+            Console.WriteLine("Enter your last name for booking");
+            lastName = Console.ReadLine();
+
+            Console.WriteLine("Enter your phone");
+            phoneNumber = Console.ReadLine();
+
+            Console.WriteLine("How many seats would you like to book");
+            numberOfReservedSeats = int.Parse(Console.ReadLine());
         }
     }
 
