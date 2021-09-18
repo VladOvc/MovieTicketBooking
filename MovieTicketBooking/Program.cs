@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MovieTicketBooking.Exceptions;
+using MovieTicketBooking.Scenarios;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +19,7 @@ namespace MovieTicketBooking
             var bookedTicketsAssString = File.ReadAllText(pathBookedTickets);
 
             var movies = JsonConvert.DeserializeObject<List<Movie>>(moviesAssString);
-            var bookedTickets = JsonConvert.DeserializeObject<List<BookedTickets>>(bookedTicketsAssString);
+            var bookings = JsonConvert.DeserializeObject<List<BookedTickets>>(bookedTicketsAssString);
 
             RenderMoviesTable(movies);
             RenderMainMenu();
@@ -33,7 +35,10 @@ namespace MovieTicketBooking
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Backspace:
-                        Environment.Exit(0);
+                        Console.Clear();
+
+                        RenderMoviesTable(movies);
+                        RenderMainMenu();
                         break;
 
                     case ConsoleKey.D1:
@@ -50,7 +55,7 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        BookTicket(movies);
+                        new BookMovieScenario(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
                         break;
                 }
             }
@@ -107,50 +112,46 @@ namespace MovieTicketBooking
             RenderMoviesTable(movies);
             RenderMainMenu();
         }
-        private static void BookTicket(List<Movie> movies)
-        {
-            Console.Clear();
-
-            string nameMovie;
-            string firstName;
-            string lastName;
-            string phoneNumber;
-            int numberOfReservedSeats;
-
-            RenderMoviesTable(movies);
-
-            var numberMovie = int.Parse(Console.ReadLine());
-
-            nameMovie = movies[numberMovie - 1].Title;
-
-            Console.Clear();
-
-            Console.WriteLine($"You have selected a movie called: {nameMovie}");
-            Console.WriteLine("Enter your first name for booking");
-            firstName = Console.ReadLine();
-
-            Console.WriteLine("Enter your last name for booking");
-            lastName = Console.ReadLine();
-
-            Console.WriteLine("Enter your phone");
-            phoneNumber = Console.ReadLine();
-
-            Console.WriteLine("How many seats would you like to book");
-            numberOfReservedSeats = int.Parse(Console.ReadLine());
-        }
     }
 
-    internal class Movie
+    public class Movie
     {
+        public Guid Id = Guid.NewGuid();
         public string Title { get; set; }
         public int NumberOfFreeSeats { get; set; }
+
+        internal void BookRequestedSeats(int requestedSeats)
+        {
+            if (NumberOfFreeSeats < requestedSeats)
+            {
+                throw new NotEnoughtSeatsEception("Our aplogies, there's no free seats available you need");
+            }
+
+            NumberOfFreeSeats = NumberOfFreeSeats - requestedSeats;
+        }
+
+        internal void ValidateAvailableSeats()
+        {
+            if (NumberOfFreeSeats == 0)
+            {
+                throw new NoSeatsException($"There's no free seats for {Title}");
+            }
+        }
     }
-    internal class BookedTickets
+    public class BookedTickets
     {
-        public string NameMovie { get; set; }
+        public Guid MovieId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public int NumberOfReservedSeats { get; set; }
+        public BookedTickets(Guid movieId, string firstName, string lastName, string phoneNumber, int numberOfReservedSeats)
+        {
+            MovieId = movieId;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            NumberOfReservedSeats = numberOfReservedSeats;
+        }
     }
 }

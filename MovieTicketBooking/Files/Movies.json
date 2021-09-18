@@ -1,1 +1,52 @@
-[{"Title":"12 Angry Men","NumberOfFreeSeats":30},{"Title":"Pulp Fiction","NumberOfFreeSeats":40},{"Title":"Schindler's List","NumberOfFreeSeats":35},{"Title":"The Dark Knight","NumberOfFreeSeats":45},{"Title":"The Godfather","NumberOfFreeSeats":50},{"Title":"The Godfather: Part II","NumberOfFreeSeats":30},{"Title":"The Good, the Bad and the Ugly","NumberOfFreeSeats":45},{"Title":"The Lord of the Rings: The Fellowship of the Ring","NumberOfFreeSeats":25},{"Title":"The Lord of the Rings: The Return of the King","NumberOfFreeSeats":30},{"Title":"The Shawshank Redemption","NumberOfFreeSeats":40}]
+[
+  {
+    "Id": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
+    "Title": "12 Angry Men",
+    "NumberOfFreeSeats": 0
+  },
+  {
+    "Id": "e13b43f2-1be2-40d5-a989-e305dff5b17d",
+    "Title": "Pulp Fiction",
+    "NumberOfFreeSeats": 40
+  },
+  {
+    "Id": "2d2ea9a7-4409-4238-8a64-468f6005c768",
+    "Title": "Schindler's List",
+    "NumberOfFreeSeats": 35
+  },
+  {
+    "Id": "1311103a-f66e-4b63-88c7-1205df1e3d9b",
+    "Title": "The Dark Knight",
+    "NumberOfFreeSeats": 45
+  },
+  {
+    "Id": "d717ac57-6175-47d7-bb70-6a6cd1128f7c",
+    "Title": "The Godfather",
+    "NumberOfFreeSeats": 40
+  },
+  {
+    "Id": "7c0d784a-0cc2-46c3-b0b4-e788aedf201c",
+    "Title": "The Godfather: Part II",
+    "NumberOfFreeSeats": 30
+  },
+  {
+    "Id": "c2f36a1b-45ca-4fdb-a486-549c833e1024",
+    "Title": "The Good, the Bad and the Ugly",
+    "NumberOfFreeSeats": 45
+  },
+  {
+    "Id": "eb7d842c-21f9-44d4-9a79-4a65b14125cb",
+    "Title": "The Lord of the Rings: The Fellowship of the Ring",
+    "NumberOfFreeSeats": 24
+  },
+  {
+    "Id": "aaf1cc47-c62f-4459-9731-3e08a7ea6fa6",
+    "Title": "The Lord of the Rings: The Return of the King",
+    "NumberOfFreeSeats": 29
+  },
+  {
+    "Id": "eea646aa-debc-413a-a379-06c7afcb4a0e",
+    "Title": "The Shawshank Redemption",
+    "NumberOfFreeSeats": 40
+  }
+]
