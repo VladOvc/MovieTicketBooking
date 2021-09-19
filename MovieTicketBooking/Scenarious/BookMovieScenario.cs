@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace MovieTicketBooking.Scenarios
+namespace MovieTicketBooking.Scenarious
 {
     public class BookMovieScenario : IRunnable
     {

@@ -1,5 +1,5 @@
 ﻿using MovieTicketBooking.Exceptions;
-using MovieTicketBooking.Scenarios;
+using MovieTicketBooking.Scenarious;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -57,11 +57,14 @@ namespace MovieTicketBooking
                     case ConsoleKey.NumPad3:
                         new BookMovieScenario(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
                         break;
+
+                    case ConsoleKey.D5:
+                    case ConsoleKey.NumPad5:
+                        new CancelBooking(movies, bookings, pathToMoviesFile, pathBookedTickets);
+                        break;
                 }
             }
             while (keyInfo.Key != ConsoleKey.X);
-
-
         }
 
         private static void RenderMainMenu()
@@ -74,7 +77,8 @@ namespace MovieTicketBooking
             Console.WriteLine("2 Sort a movies");
             Console.WriteLine("3 Book a Ticket");
             Console.WriteLine("4 Booking List");
-            Console.WriteLine("5 Add a new movie");
+            Console.WriteLine("5 Cancel Booking");
+            Console.WriteLine("6 Add a new movie");
         }
 
         private static void RenderMoviesTable(List<Movie> movies)
@@ -130,6 +134,11 @@ namespace MovieTicketBooking
             NumberOfFreeSeats = NumberOfFreeSeats - requestedSeats;
         }
 
+        internal void ReturnBookingSeats(int returnedBooking)
+        {
+            NumberOfFreeSeats = NumberOfFreeSeats + returnedBooking;
+        }
+
         internal void ValidateAvailableSeats()
         {
             if (NumberOfFreeSeats == 0)
@@ -144,14 +153,14 @@ namespace MovieTicketBooking
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
-        public int NumberOfReservedSeats { get; set; }
+        public int FreeSeats { get; set; }
         public BookedTickets(Guid movieId, string firstName, string lastName, string phoneNumber, int numberOfReservedSeats)
         {
             MovieId = movieId;
             FirstName = firstName;
             LastName = lastName;
             PhoneNumber = phoneNumber;
-            NumberOfReservedSeats = numberOfReservedSeats;
+            FreeSeats = numberOfReservedSeats;
         }
     }
 }
