@@ -4,27 +4,20 @@
     "FirstName": "jhdf",
     "LastName": "sgr",
     "PhoneNumber": "134",
-    "NumberOfReservedSeats": 1
+    "FreeSeats": 1
   },
   {
     "MovieId": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
     "FirstName": "Vlad",
     "LastName": "asd",
     "PhoneNumber": "123",
-    "NumberOfReservedSeats": 2
+    "FreeSeats": 4
   },
   {
     "MovieId": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
     "FirstName": "Vlad",
     "LastName": "asd",
     "PhoneNumber": "123",
-    "NumberOfReservedSeats": 4
-  },
-  {
-    "MovieId": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
-    "FirstName": "Vlad",
-    "LastName": "asd",
-    "PhoneNumber": "123",
-    "NumberOfReservedSeats": 1
+    "FreeSeats": 1
   }
 ]

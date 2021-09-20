@@ -60,7 +60,7 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
-                        new CancelBooking(movies, bookings, pathToMoviesFile, pathBookedTickets);
+                        new CancelBooking(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
                         break;
                 }
             }

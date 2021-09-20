@@ -55,7 +55,7 @@ namespace MovieTicketBooking.Scenarious
                 {
                     case ConsoleKey.Y:
                         Console.WriteLine();
-                        Console.WriteLine("Your booking delted");
+                        Console.WriteLine("Your booking deleted");
                         break;
                     case ConsoleKey.N:
                         Console.WriteLine();
