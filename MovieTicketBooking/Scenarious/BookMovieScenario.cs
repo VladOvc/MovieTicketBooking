@@ -10,11 +10,11 @@ namespace MovieTicketBooking.Scenarious
     public class BookMovieScenario : IRunnable
     {
         private List<Movie> _movies;
-        private List<BookedTickets> _bookings;
+        private List<BookedTicket> _bookings;
         private string _pathToMoviesFile;
         private string _pathBookedTickets;
 
-        public BookMovieScenario(List<Movie> movies, List<BookedTickets> bookings, string pathToMoviesFile, string pathBookedTickets)
+        public BookMovieScenario(List<Movie> movies, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
         {
             _movies = movies;
             _bookings = bookings;
@@ -55,7 +55,7 @@ namespace MovieTicketBooking.Scenarious
 
                 selectedMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _bookings.Add(new BookedTickets(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
+                _bookings.Add(new BookedTicket(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
 
                 File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
                 File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));

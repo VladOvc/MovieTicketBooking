@@ -1,23 +1,20 @@
 ﻿using MovieTicketBooking.Exceptions;
-using MovieTicketBooking.Scenarious;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTicketBooking.Scenarious
 {
     public class CancelBooking : IRunnable
     {
         private List<Movie> _movies;
-        private List<BookedTickets> _bookings;
+        private List<BookedTicket> _bookings;
         private string _pathToMoviesFile;
         private string _pathBookedTickets;
 
-        public CancelBooking(List<Movie> movies, List<BookedTickets> bookings, string pathToMoviesFile, string pathBookedTickets)
+        public CancelBooking(List<Movie> movies, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
         {
             _movies = movies;
             _bookings = bookings;
@@ -36,14 +33,16 @@ namespace MovieTicketBooking.Scenarious
                 var movieNumber = int.Parse(Console.ReadLine());
                 var selectedMovie = _movies.ElementAt(movieNumber - 1);
 
-                selectedMovie.ValidateAvailableSeats();
-
                 Console.Clear();
 
                 Console.WriteLine("your phone number on which the reservation was made");
                 string phoneNumberBooking = Console.ReadLine();
 
                 var foundBooking = SerchBooking(_bookings, phoneNumberBooking, selectedMovie);
+
+                /// Render your booking
+
+                RenderBookingTickets(foundBooking, selectedMovie);
 
                 /// Delete booking 
 
@@ -54,6 +53,14 @@ namespace MovieTicketBooking.Scenarious
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.Y:
+
+                        selectedMovie.ReturnBookingSeats(foundBooking.FreeSeats);
+
+                        _bookings.Remove(foundBooking);
+
+                        File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
+                        File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
+
                         Console.WriteLine();
                         Console.WriteLine("Your booking deleted");
                         break;
@@ -64,20 +71,8 @@ namespace MovieTicketBooking.Scenarious
                     default:
                         break;
                 }
-
-                selectedMovie.ReturnBookingSeats(foundBooking.FreeSeats);
-
-                _bookings.Remove(foundBooking);
-
-                File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
-                File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
             }
-            catch (NoBookedByPhoneForThisMovieException exception)
-            {
-                Console.WriteLine();
-                Console.WriteLine(exception.Message);
-            }
-            catch (NoBookedByPhoneNumberException exception)
+            catch (NoBookedMovieByPhoneNumberException exception)
             {
                 Console.WriteLine();
                 Console.WriteLine(exception.Message);
@@ -96,22 +91,29 @@ namespace MovieTicketBooking.Scenarious
             Console.WriteLine("To return to the menu press BACKSPACE");
         }
 
-        private BookedTickets SerchBooking(List<BookedTickets> bookings, string phoneNumberBooking, Movie selectedMovie)
+        private void RenderBookingTickets(BookedTicket foundBooking, Movie selectedMovie)
         {
-            var foundBooking = bookings.Find(item => item.PhoneNumber == phoneNumberBooking);
+            Console.WriteLine();
+
+            Console.WriteLine("We found your booked ticket))");
+
+            Console.WriteLine();
+            Console.WriteLine($"Movie:      {selectedMovie.Title}");
+            Console.WriteLine($"First name: {foundBooking.FirstName}");
+            Console.WriteLine($"Last name:  {foundBooking.LastName}");
+            Console.WriteLine($"Phone:      {foundBooking.PhoneNumber}");
+            Console.WriteLine();
+        }
+
+        private BookedTicket SerchBooking(List<BookedTicket> bookings, string phoneNumberBooking, Movie selectedMovie)
+        {
+            var foundBooking = bookings.Where(item => item.PhoneNumber == phoneNumberBooking && item.MovieId == selectedMovie.Id).FirstOrDefault();
 
             if (foundBooking == null)
             {
-                throw new NoBookedByPhoneNumberException("We could not find your booked ticket with your phone number.");
+                throw new NoBookedMovieByPhoneNumberException("We could not find your booked ticket with your phone number.");
             }
-            else
-            {
-                if (foundBooking.MovieId == selectedMovie.Id)
-                {
-                    return foundBooking;
-                }
-                throw new NoBookedByPhoneForThisMovieException("We could not find a booked ticket for this movie using your phone number.");
-            }
+            return foundBooking;
         }
     }
 }

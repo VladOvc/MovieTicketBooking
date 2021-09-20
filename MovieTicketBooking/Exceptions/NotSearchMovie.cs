@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MovieTicketBooking.Exceptions
 {
-    class NoBookedByPhoneForThisMovieException : Exception
+    class NotSearchMovie : Exception
     {
-        public NoBookedByPhoneForThisMovieException(string message) : base(message)
+        public NotSearchMovie(string message) : base(message)
         {
 
         }

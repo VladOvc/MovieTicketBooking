@@ -19,7 +19,7 @@ namespace MovieTicketBooking
             var bookedTicketsAssString = File.ReadAllText(pathBookedTickets);
 
             var movies = JsonConvert.DeserializeObject<List<Movie>>(moviesAssString);
-            var bookings = JsonConvert.DeserializeObject<List<BookedTickets>>(bookedTicketsAssString);
+            var bookings = JsonConvert.DeserializeObject<List<BookedTicket>>(bookedTicketsAssString);
 
             RenderMoviesTable(movies);
             RenderMainMenu();
@@ -43,7 +43,7 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        
+                        new SearchMovieScenario(movies).Run();
 
                         break;
 
@@ -147,14 +147,14 @@ namespace MovieTicketBooking
             }
         }
     }
-    public class BookedTickets
+    public class BookedTicket
     {
         public Guid MovieId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public int FreeSeats { get; set; }
-        public BookedTickets(Guid movieId, string firstName, string lastName, string phoneNumber, int numberOfReservedSeats)
+        public BookedTicket(Guid movieId, string firstName, string lastName, string phoneNumber, int numberOfReservedSeats)
         {
             MovieId = movieId;
             FirstName = firstName;
