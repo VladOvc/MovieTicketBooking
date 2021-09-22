@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace MovieTicketBooking.Scenarious
@@ -19,20 +21,26 @@ namespace MovieTicketBooking.Scenarious
 
         public void Run()
         {
+            Console.WriteLine();
             Console.WriteLine("___Adding New Movie___");
 
             /// Data
 
-            Console.WriteLine("Enter Title for this movie:");
+            Console.WriteLine("Enter Title:");
             var titleMovie = Console.ReadLine();
 
-            Console.WriteLine("Enter Free Seats for this movie");
+            Console.WriteLine("Enter Free Seats:");
             var NumberOfFreeSeatsMovie = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter Genre for this movie");
+            Console.WriteLine("Enter Genre:");
             var genreMovie = Console.ReadLine();
 
-           // _movies.Add(new Movie(Guid.NewGuid(), titleMovie, NumberOfFreeSeatsMovie, genreMovie));
+            Console.WriteLine("Enter Rating:");
+            var ratingMovie = Console.ReadLine();
+
+            _movies.Add(new Movie(Guid.NewGuid(), titleMovie, NumberOfFreeSeatsMovie, genreMovie, ratingMovie));
+
+            File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
 
             Console.WriteLine("To return to the menu press BACKSPACE");
         }

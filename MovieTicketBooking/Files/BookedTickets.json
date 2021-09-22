@@ -40,5 +40,12 @@
     "LastName": "sdfsvxc",
     "PhoneNumber": "0679275689",
     "FreeSeats": 1000
+  },
+  {
+    "MovieId": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
+    "FirstName": "olexey",
+    "LastName": "sjgd",
+    "PhoneNumber": "77777777",
+    "FreeSeats": 20
   }
 ]

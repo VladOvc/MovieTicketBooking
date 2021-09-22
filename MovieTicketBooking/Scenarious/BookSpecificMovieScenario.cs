@@ -8,28 +8,21 @@ using System.Linq;
 
 namespace MovieTicketBooking.Scenarious
 {
-    public class BookMovieScenario : IRunnable
+    public class BookSpecificMovieScenario : IRunnable
     {
         private MovieRepository _movieRepository;
 
+        private Movie _specificMovie;
+
         private List<BookedTicket> _bookings;
         private string _pathBookedTickets;
-        private Movie _selectedMovie;
 
-        public BookMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
-        {
-            _movies = movies;
-            _bookings = bookings;
-            _pathToMoviesFile = pathToMoviesFile;
-            _pathBookedTickets = pathBookedTickets;
-        }
-
-        public BookMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets, Movie selectedMovie)
+        public BookSpecificMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathBookedTickets, Movie specificMovie)
         {
             _movieRepository = movieRepository;
             _bookings = bookings;
             _pathBookedTickets = pathBookedTickets;
-            _selectedMovie = selectedMovie;
+            _specificMovie = specificMovie;
         }
 
         public void Run()
@@ -40,12 +33,10 @@ namespace MovieTicketBooking.Scenarious
             {
                 /// Get movie
 
-                var selectedMovie = SelectMovie(_selectedMovie);
-
-                selectedMovie.ValidateAvailableSeats();
+                _specificMovie.ValidateAvailableSeats();
 
                 Console.Clear();
-                Console.WriteLine($"You have selected a movie called: {selectedMovie.Title}");
+                Console.WriteLine($"You have selected a movie called: {_specificMovie.Title}");
 
                 /// Enter data
 
@@ -61,12 +52,12 @@ namespace MovieTicketBooking.Scenarious
                 Console.WriteLine("How many seats would you like to book");
                 int numberToReserveSeats = int.Parse(Console.ReadLine());
 
-                selectedMovie.BookRequestedSeats(numberToReserveSeats);
+                _specificMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _bookings.Add(new BookedTicket(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
+                _bookings.Add(new BookedTicket(_specificMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
 
                 File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
-                File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
+                _movieRepository.Save();
 
             }
             catch (NotEnoughtSeatsEception exception)
@@ -83,21 +74,5 @@ namespace MovieTicketBooking.Scenarious
             Console.WriteLine("To return to the menu press BACKSPACE");
         }
 
-        private Movie SelectMovie(Movie selectedMovie)
-        {
-            if (selectedMovie == null)
-            {
-                Console.WriteLine("Enter movie order in list");
-
-                var movieNumber = int.Parse(Console.ReadLine());
-                selectedMovie = _movies.ElementAt(movieNumber - 1);
-
-                return selectedMovie;
-            }
-            else
-            {
-                return selectedMovie;
-            }
-        }
     }
 }

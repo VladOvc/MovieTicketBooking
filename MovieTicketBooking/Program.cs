@@ -1,4 +1,6 @@
 ﻿using MovieTicketBooking.Exceptions;
+using MovieTicketBooking.Helpers;
+using MovieTicketBooking.Repositories;
 using MovieTicketBooking.Scenarious;
 using Newtonsoft.Json;
 using System;
@@ -12,17 +14,17 @@ namespace MovieTicketBooking
     {
         static void Main(string[] args)
         {
-            var pathToMoviesFile = "../../../Files/Movies.json";
-            var pathBookedTickets = "../../../Files/BookedTickets.json";
+            var movieRepository = new MovieRepository();
 
-            var moviesAssString = File.ReadAllText(pathToMoviesFile);
+            var uiHelper = new UIHelper(movieRepository);
+            
+            var pathBookedTickets = "../../../Files/BookedTickets.json";
+            
             var bookedTicketsAssString = File.ReadAllText(pathBookedTickets);
 
-            var movies = JsonConvert.DeserializeObject<List<Movie>>(moviesAssString);
             var bookings = JsonConvert.DeserializeObject<List<BookedTicket>>(bookedTicketsAssString);
 
-            RenderMoviesTable(movies);
-            RenderMainMenu();
+            uiHelper.RenderMainMenu();
 
             /// Chouse menu item
 
@@ -37,19 +39,19 @@ namespace MovieTicketBooking
                     case ConsoleKey.Backspace:
                         Console.Clear();
 
-                        RenderMoviesTable(movies);
-                        RenderMainMenu();
+                        uiHelper.RenderMoviesTable();
+                        uiHelper.RenderMainMenu();
                         break;
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new SearchMovieScenario(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
+                        new SearchMovieScenario(movieRepository, bookings, pathBookedTickets).Run();
 
                         break;
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        SortMovies(movies, pathToMoviesFile);
+                        SortMovies();
 
                         break;
 
@@ -75,41 +77,7 @@ namespace MovieTicketBooking
             while (keyInfo.Key != ConsoleKey.X);
         }
 
-        private static void RenderMainMenu()
-        {
-            /// Render main menu
 
-            Console.WriteLine();
-
-            Console.WriteLine("1 Search a movie");
-            Console.WriteLine("2 Sort a movies");
-            Console.WriteLine("3 Book a Ticket");
-            Console.WriteLine("4 Booking List");
-            Console.WriteLine("5 Cancel Booking");
-            Console.WriteLine("6 Add a new movie");
-        }
-
-        private static void RenderMoviesTable(List<Movie> movies)
-        {
-            /// Render a table
-
-            var maxTitleLenght = movies.Max(asd => asd.Title.Length);
-
-            var titleColumnName = "Title";
-
-            var rightPaddingTitle = new string(' ', maxTitleLenght - titleColumnName.Length);
-
-            Console.WriteLine($"| ## | {titleColumnName}{rightPaddingTitle} | ## |");
-
-            foreach (var movieIterator in movies.Select((item, index) => (item, index)))
-            {
-                var rightPadding = new string(' ', maxTitleLenght - movieIterator.item.Title.Length);
-
-                var number = movieIterator.index + 1;
-
-                Console.WriteLine($"| {number.ToString("D2")} | {movieIterator.item.Title}{rightPadding} | {movieIterator.item.NumberOfFreeSeats} |");
-            }
-        }
 
         private static void SortMovies(List<Movie> movies, string pathToMoviesFile)
         {
@@ -141,14 +109,14 @@ namespace MovieTicketBooking
         public float Rating { get; set; }
         public List<Comment> Comments { get; set; }
 
-        public Movie(Guid id, string title, int numberOfFreeSeats, string genre, float rating,List<Comment> comments)
+        public Movie(Guid id, string title, int numberOfFreeSeats, string genre, float rating)
         {
             Id = id;
             Title = title;
             NumberOfFreeSeats = numberOfFreeSeats;
             Genre = genre;
             Rating = rating;
-            Comments = comments;
+            Comments = new List<Comment>();
         }
 
         internal void BookRequestedSeats(int requestedSeats)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieTicketBooking.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,15 @@ namespace MovieTicketBooking.Scenarious
 {
     class SearchMovieScenario : IRunnable
     {
-        private List<Movie> _movies;
+        private MovieRepository _movieRepository;
+
         private List<BookedTicket>_bookings;
-        private string _pathToMoviesFile;
         private string _pathBookedTickets;
 
-        public SearchMovieScenario(List<Movie> movies, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
+        public SearchMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathBookedTickets)
         {
-            _movies = movies;
+            _movieRepository = movieRepository;
             _bookings = bookings;
-            _pathToMoviesFile = pathToMoviesFile;
             _pathBookedTickets = pathBookedTickets;
         }
 
@@ -28,18 +28,20 @@ namespace MovieTicketBooking.Scenarious
             {
                 Console.Clear();
 
-                Console.WriteLine("Enter movie title:");
+                Console.WriteLine("Enter movie title or genre or rating:");
                 var titleToSearch = Console.ReadLine();
-                var spec = "0.0";
-                var foundMovie = _movies.Where(item => item.Title.ToLower().Contains(titleToSearch.ToLower())
-                                                    || item.Genre.ToLower().Contains(titleToSearch.ToLower())
-                                                    || item.Rating.ToString(spec) == titleToSearch)
-                                                    .First();
+                var specifier = "0.0";
+
+                Movie foundMovie = _movieRepository.FindMovie(titleToSearch, specifier);
+
+                Console.WriteLine();
 
                 Console.WriteLine($"We found movie: {foundMovie.Title}");
                 Console.WriteLine($"Free seats this movie: {foundMovie.NumberOfFreeSeats}");
 
-                RenderMainMenu();
+                Console.WriteLine();
+
+                RenderMenuForFoundMovie();
 
                 ConsoleKeyInfo KeyInfo = Console.ReadKey();
 
@@ -47,7 +49,7 @@ namespace MovieTicketBooking.Scenarious
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new BookMovieScenario(_movies, _bookings, _pathToMoviesFile, _pathBookedTickets, foundMovie).Run();
+                        new BookSpecificMovieScenario(_movieRepository, _bookings, _pathBookedTickets, foundMovie).Run();
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
@@ -60,9 +62,6 @@ namespace MovieTicketBooking.Scenarious
                     default:
                         break;
                 }
-
-                Console.WriteLine("To return to the menu press BACKSPACE");
-
             }
             catch (InvalidOperationException)
             {
@@ -75,18 +74,18 @@ namespace MovieTicketBooking.Scenarious
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new AddNewMovie(_movies, _pathToMoviesFile);
+                        new AddNewMovie(_movies, _pathToMoviesFile).Run();
                         break;
                 }
             }
         }
 
-        private void RenderMainMenu()
+        private void RenderMenuForFoundMovie()
         {
             Console.WriteLine("1: Book this Movie");
             Console.WriteLine("2: View all reservations for this movie");
             Console.WriteLine("3: View Comments on this movie");
-            Console.WriteLine("Backspace: Ввернуться в главное меню");
+            Console.WriteLine("To return to the menu press BACKSPACE");
         }
     }
 }
