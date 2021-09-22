@@ -13,6 +13,7 @@ namespace MovieTicketBooking.Scenarious
         private List<BookedTicket> _bookings;
         private string _pathToMoviesFile;
         private string _pathBookedTickets;
+        private Movie _selectedMovie;
 
         public BookMovieScenario(List<Movie> movies, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
         {
@@ -22,17 +23,24 @@ namespace MovieTicketBooking.Scenarious
             _pathBookedTickets = pathBookedTickets;
         }
 
+        public BookMovieScenario(List<Movie> movies, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets, Movie selectedMovie)
+        {
+            _movies = movies;
+            _bookings = bookings;
+            _pathToMoviesFile = pathToMoviesFile;
+            _pathBookedTickets = pathBookedTickets;
+            _selectedMovie = selectedMovie;
+        }
+
         public void Run()
         {
             Console.WriteLine();
-            Console.WriteLine("Enter movie order in list");
 
             try
             {
                 /// Get movie
 
-                var movieNumber = int.Parse(Console.ReadLine());
-                var selectedMovie = _movies.ElementAt(movieNumber - 1);
+                var selectedMovie = SelectMovie(_selectedMovie);
 
                 selectedMovie.ValidateAvailableSeats();
 
@@ -73,6 +81,23 @@ namespace MovieTicketBooking.Scenarious
             }
 
             Console.WriteLine("To return to the menu press BACKSPACE");
+        }
+
+        private Movie SelectMovie(Movie selectedMovie)
+        {
+            if (selectedMovie == null)
+            {
+                Console.WriteLine("Enter movie order in list");
+
+                var movieNumber = int.Parse(Console.ReadLine());
+                selectedMovie = _movies.ElementAt(movieNumber - 1);
+
+                return selectedMovie;
+            }
+            else
+            {
+                return selectedMovie;
+            }
         }
     }
 }

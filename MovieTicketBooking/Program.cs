@@ -43,7 +43,7 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new SearchMovieScenario(movies).Run();
+                        new SearchMovieScenario(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
 
                         break;
 
@@ -61,6 +61,14 @@ namespace MovieTicketBooking
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
                         new CancelBooking(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
+                        break;
+                    case ConsoleKey.D6:
+                    case ConsoleKey.NumPad6:
+                        /*new ViewMovieReservation(movies, bookings).Run();*/
+                        break;
+                    case ConsoleKey.D7:
+                    case ConsoleKey.NumPad7:
+                        new ViewMovieComments(movies).Run();
                         break;
                 }
             }
@@ -109,20 +117,39 @@ namespace MovieTicketBooking
 
             Console.Clear();
 
-            var content = JsonConvert.SerializeObject(movies);
-
-            File.WriteAllText(pathToMoviesFile, content);
+            File.WriteAllText(pathToMoviesFile, JsonConvert.SerializeObject(movies, Formatting.Indented));
 
             RenderMoviesTable(movies);
             RenderMainMenu();
         }
     }
+    public class Comment
+    {
+        public string Message { get; set; }
 
+        public Comment(string message)
+        {
+            Message = message;
+        }
+    }
     public class Movie
     {
         public Guid Id = Guid.NewGuid();
         public string Title { get; set; }
         public int NumberOfFreeSeats { get; set; }
+        public string Genre { get; set; }
+        public float Rating { get; set; }
+        public List<Comment> Comments { get; set; }
+
+        public Movie(Guid id, string title, int numberOfFreeSeats, string genre, float rating,List<Comment> comments)
+        {
+            Id = id;
+            Title = title;
+            NumberOfFreeSeats = numberOfFreeSeats;
+            Genre = genre;
+            Rating = rating;
+            Comments = comments;
+        }
 
         internal void BookRequestedSeats(int requestedSeats)
         {
