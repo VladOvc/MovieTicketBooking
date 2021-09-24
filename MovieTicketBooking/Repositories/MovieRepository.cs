@@ -14,9 +14,8 @@ namespace MovieTicketBooking.Repositories
 
         private string _pathToMovies = "../../../Files/Movies.json";
 
-        public MovieRepository(List<Movie> movies)
+        public MovieRepository()
         {
-
             _movies = JsonConvert.DeserializeObject<List<Movie>>(File.ReadAllText(_pathToMovies));
         }
         public List<Movie> GetAll()
@@ -24,6 +23,11 @@ namespace MovieTicketBooking.Repositories
 
 
             return _movies;
+        }
+
+        public void Save()
+        {
+            File.WriteAllText(_pathToMovies, JsonConvert.SerializeObject(_movies, Formatting.Indented));
         }
 
         public Movie FindMovie(string titleToSearch, string specifier)
@@ -35,9 +39,31 @@ namespace MovieTicketBooking.Repositories
             return foundMovie;
         }
 
-        public void Save()
+        public void SortMovieTitle()
         {
-            File.WriteAllText(_pathToMovies, JsonConvert.SerializeObject(_movies, Formatting.Indented));
+            _movies = _movies.OrderBy(movie => movie.Title).ToList();
+
+            Save();
+        }
+
+        public void SortMovieGenre()
+        {
+            _movies = _movies.OrderBy(movie => movie.Genre).ToList();
+
+            Save();
+        }
+
+        public void SortMovieRating()
+        {
+            _movies = _movies.OrderBy(movie => movie.Rating).ToList();
+
+            Save();
+        }
+        public void AddNewMovie(Guid id, string titleMovie, int NumberOfFreeSeatsMovie, string genreMovie, float ratingMovie)
+        {
+            _movies.Add(new Movie(id, titleMovie, NumberOfFreeSeatsMovie, genreMovie, ratingMovie));
+
+            Save();
         }
     }
 }

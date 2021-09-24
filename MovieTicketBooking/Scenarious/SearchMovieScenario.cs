@@ -1,29 +1,21 @@
 ﻿using MovieTicketBooking.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTicketBooking.Scenarious
 {
     class SearchMovieScenario : IRunnable
     {
         private MovieRepository _movieRepository;
+        private BookingRepository _bookingRepository;
 
-        private List<BookedTicket>_bookings;
-        private string _pathBookedTickets;
-
-        public SearchMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathBookedTickets)
+        public SearchMovieScenario(MovieRepository movieRepository, BookingRepository bookingRepository)
         {
             _movieRepository = movieRepository;
-            _bookings = bookings;
-            _pathBookedTickets = pathBookedTickets;
+            _bookingRepository = bookingRepository;
         }
 
         public void Run()
         {
-
             try
             {
                 Console.Clear();
@@ -43,38 +35,63 @@ namespace MovieTicketBooking.Scenarious
 
                 RenderMenuForFoundMovie();
 
-                ConsoleKeyInfo KeyInfo = Console.ReadKey();
+                ConsoleKeyInfo KeyInfo;
 
-                switch (KeyInfo.Key)
+                do
                 {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        new BookSpecificMovieScenario(_movieRepository, _bookings, _pathBookedTickets, foundMovie).Run();
-                        break;
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        new ViewMovieReservation(_bookings, foundMovie).Run();
-                        break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        new ViewMovieComments(_movies, foundMovie).Run();
-                        break;
-                    default:
-                        break;
-                }
+                    KeyInfo = Console.ReadKey();
+
+                    switch (KeyInfo.Key)
+                    {
+                        case ConsoleKey.Backspace:
+                            Console.Clear();
+
+                            Console.WriteLine($"We found movie: {foundMovie.Title}");
+                            Console.WriteLine($"Free seats this movie: {foundMovie.NumberOfFreeSeats}");
+                            Console.WriteLine();
+                            RenderMenuForFoundMovie();
+                            break;
+                        case ConsoleKey.D1:
+                        case ConsoleKey.NumPad1:
+                            new BookingSpecificMovieScenario(_movieRepository, _bookingRepository, foundMovie).Run();
+                            break;
+                        case ConsoleKey.D2:
+                        case ConsoleKey.NumPad2:
+                            new ViewSpecificMovieReservation(_bookingRepository, foundMovie).Run();
+
+                            Console.WriteLine();
+                            RenderMenuForFoundMovie();
+                            break;
+                        case ConsoleKey.D3:
+                        case ConsoleKey.NumPad3:
+                            new ViewSpecificMovieComments(foundMovie).Run();
+
+                            Console.WriteLine();
+                            RenderMenuForFoundMovie();
+                            break;
+                        default:
+                            break;
+                    }
+                } while (KeyInfo.Key != ConsoleKey.X);
+
             }
             catch (InvalidOperationException)
             {
                 Console.WriteLine();
                 Console.WriteLine("Movie not a found");
+                Console.WriteLine("1 Add new movie");
+                Console.WriteLine("To return to the menu press BACKSPACE");
 
-                ConsoleKeyInfo KeyInfo = Console.ReadKey();
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
 
-                switch (KeyInfo.Key)
+                switch (keyInfo.Key)
                 {
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new AddNewMovie(_movies, _pathToMoviesFile).Run();
+                        new AddNewMovieScenario(_movieRepository).Run();
+                        break;
+                    case ConsoleKey.Backspace:
+                        Console.Clear();
                         break;
                 }
             }
@@ -85,7 +102,7 @@ namespace MovieTicketBooking.Scenarious
             Console.WriteLine("1: Book this Movie");
             Console.WriteLine("2: View all reservations for this movie");
             Console.WriteLine("3: View Comments on this movie");
-            Console.WriteLine("To return to the menu press BACKSPACE");
+            Console.WriteLine("To return to the menu press X");
         }
     }
 }

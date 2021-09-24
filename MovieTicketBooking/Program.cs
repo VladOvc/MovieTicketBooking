@@ -14,16 +14,13 @@ namespace MovieTicketBooking
     {
         static void Main(string[] args)
         {
+            var bookingRepository = new BookingRepository();
+
             var movieRepository = new MovieRepository();
 
             var uiHelper = new UIHelper(movieRepository);
-            
-            var pathBookedTickets = "../../../Files/BookedTickets.json";
-            
-            var bookedTicketsAssString = File.ReadAllText(pathBookedTickets);
 
-            var bookings = JsonConvert.DeserializeObject<List<BookedTicket>>(bookedTicketsAssString);
-
+            uiHelper.RenderMoviesTable();
             uiHelper.RenderMainMenu();
 
             /// Chouse menu item
@@ -45,24 +42,30 @@ namespace MovieTicketBooking
 
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
-                        new SearchMovieScenario(movieRepository, bookings, pathBookedTickets).Run();
+                        new SearchMovieScenario(movieRepository, bookingRepository).Run();
 
+                        Console.Clear();
+                        uiHelper.RenderMoviesTable();
+                        uiHelper.RenderMainMenu();
                         break;
 
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        SortMovies();
+                        new SortMoviesScenario(movieRepository).Run();
 
+                        Console.Clear();
+                        uiHelper.RenderMoviesTable();
+                        uiHelper.RenderMainMenu();
                         break;
 
                     case ConsoleKey.D3:
                     case ConsoleKey.NumPad3:
-                        new BookMovieScenario(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
+                        new BookMovieScenario(movieRepository, bookingRepository).Run();
                         break;
 
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
-                        new CancelBooking(movies, bookings, pathToMoviesFile, pathBookedTickets).Run();
+                        new CancelBooking(movieRepository, bookingRepository).Run();
                         break;
                     case ConsoleKey.D6:
                     case ConsoleKey.NumPad6:
@@ -70,25 +73,11 @@ namespace MovieTicketBooking
                         break;
                     case ConsoleKey.D7:
                     case ConsoleKey.NumPad7:
-                        new ViewMovieComments(movies).Run();
+                        new ViewMovieComments(movieRepository).Run();
                         break;
                 }
             }
             while (keyInfo.Key != ConsoleKey.X);
-        }
-
-
-
-        private static void SortMovies(List<Movie> movies, string pathToMoviesFile)
-        {
-            movies = movies.OrderBy(movie => movie.Title).ToList();
-
-            Console.Clear();
-
-            File.WriteAllText(pathToMoviesFile, JsonConvert.SerializeObject(movies, Formatting.Indented));
-
-            RenderMoviesTable(movies);
-            RenderMainMenu();
         }
     }
     public class Comment

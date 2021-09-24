@@ -1,9 +1,6 @@
 ﻿using MovieTicketBooking.Exceptions;
 using MovieTicketBooking.Repositories;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace MovieTicketBooking.Scenarious
@@ -11,25 +8,13 @@ namespace MovieTicketBooking.Scenarious
     public class BookMovieScenario : IRunnable
     {
         private MovieRepository _movieRepository;
+        private BookingRepository _bookingRepository;
 
-        private List<BookedTicket> _bookings;
-        private string _pathBookedTickets;
-        private Movie _selectedMovie;
-
-        public BookMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets)
-        {
-            _movies = movies;
-            _bookings = bookings;
-            _pathToMoviesFile = pathToMoviesFile;
-            _pathBookedTickets = pathBookedTickets;
-        }
-
-        public BookMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathToMoviesFile, string pathBookedTickets, Movie selectedMovie)
+        public BookMovieScenario(MovieRepository movieRepository, BookingRepository bookingRepository)
         {
             _movieRepository = movieRepository;
-            _bookings = bookings;
-            _pathBookedTickets = pathBookedTickets;
-            _selectedMovie = selectedMovie;
+            _bookingRepository = bookingRepository;
+
         }
 
         public void Run()
@@ -40,12 +25,18 @@ namespace MovieTicketBooking.Scenarious
             {
                 /// Get movie
 
-                var selectedMovie = SelectMovie(_selectedMovie);
+                Console.WriteLine("Enter movie order in list");
+
+                var movieNumber = int.Parse(Console.ReadLine());
+                var selectedMovie = _movieRepository.GetAll().ElementAt(movieNumber - 1);
 
                 selectedMovie.ValidateAvailableSeats();
 
                 Console.Clear();
+                Console.WriteLine($"_____Booking <{selectedMovie.Title}> Movie Scenario_____");
+                Console.WriteLine();
                 Console.WriteLine($"You have selected a movie called: {selectedMovie.Title}");
+                Console.WriteLine();
 
                 /// Enter data
 
@@ -58,15 +49,14 @@ namespace MovieTicketBooking.Scenarious
                 Console.WriteLine("Enter your phone");
                 string phoneNumber = Console.ReadLine();
 
-                Console.WriteLine("How many seats would you like to book");
+                Console.WriteLine($"How many seats would you like to book <Free seats {selectedMovie.NumberOfFreeSeats}>");
                 int numberToReserveSeats = int.Parse(Console.ReadLine());
 
                 selectedMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _bookings.Add(new BookedTicket(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
+                _movieRepository.Save();
 
-                File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
-                File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
+                _bookingRepository.AddNewBooking(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats);
 
             }
             catch (NotEnoughtSeatsEception exception)
@@ -81,23 +71,6 @@ namespace MovieTicketBooking.Scenarious
             }
 
             Console.WriteLine("To return to the menu press BACKSPACE");
-        }
-
-        private Movie SelectMovie(Movie selectedMovie)
-        {
-            if (selectedMovie == null)
-            {
-                Console.WriteLine("Enter movie order in list");
-
-                var movieNumber = int.Parse(Console.ReadLine());
-                selectedMovie = _movies.ElementAt(movieNumber - 1);
-
-                return selectedMovie;
-            }
-            else
-            {
-                return selectedMovie;
-            }
         }
     }
 }

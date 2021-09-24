@@ -2,7 +2,7 @@
   {
     "Id": "26d2ffb2-d4eb-44de-a0cd-8d635cbd75b7",
     "Title": "12 Angry Men",
-    "NumberOfFreeSeats": 20,
+    "NumberOfFreeSeats": 17,
     "Genre": "fantastic",
     "Rating": 9.1,
     "Comments": [
@@ -22,7 +22,7 @@
     "Title": "Pulp Fiction",
     "NumberOfFreeSeats": 40,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 9.0,
     "Comments": [
       {
         "Message": "You can watch"
@@ -34,7 +34,7 @@
     "Title": "Schindler's List",
     "NumberOfFreeSeats": 35,
     "Genre": "fantastic",
-    "Rating": 9.2,
+    "Rating": 2.2,
     "Comments": [
       {
         "Message": "You can watch"
@@ -46,7 +46,7 @@
     "Title": "The Dark Knight",
     "NumberOfFreeSeats": 45,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 8.1,
     "Comments": [
       {
         "Message": "You can watch"
@@ -57,8 +57,8 @@
     "Id": "d717ac57-6175-47d7-bb70-6a6cd1128f7c",
     "Title": "The Godfather",
     "NumberOfFreeSeats": 40,
-    "Genre": "fantastic",
-    "Rating": 9.1,
+    "Genre": "Action",
+    "Rating": 4.1,
     "Comments": [
       {
         "Message": "You can watch"
@@ -70,7 +70,7 @@
     "Title": "The Godfather: Part II",
     "NumberOfFreeSeats": 30,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 3.1,
     "Comments": [
       {
         "Message": "You can watch"
@@ -82,7 +82,7 @@
     "Title": "The Good, the Bad and the Ugly",
     "NumberOfFreeSeats": 45,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 4.5,
     "Comments": [
       {
         "Message": "You can watch"
@@ -94,7 +94,7 @@
     "Title": "The Lord of the Rings: The Fellowship of the Ring",
     "NumberOfFreeSeats": 24,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 9.9,
     "Comments": [
       {
         "Message": "You can watch"
@@ -106,7 +106,7 @@
     "Title": "The Lord of the Rings: The Return of the King",
     "NumberOfFreeSeats": 29,
     "Genre": "fantastic",
-    "Rating": 9.1,
+    "Rating": 7.1,
     "Comments": [
       {
         "Message": "You can watch"
@@ -117,8 +117,8 @@
     "Id": "eea646aa-debc-413a-a379-06c7afcb4a0e",
     "Title": "The Shawshank Redemption",
     "NumberOfFreeSeats": 40,
-    "Genre": "fantastic",
-    "Rating": 9.1,
+    "Genre": "Action",
+    "Rating": 8.9,
     "Comments": [
       {
         "Message": "You can watch"

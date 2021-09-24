@@ -1,27 +1,19 @@
 ﻿using MovieTicketBooking.Exceptions;
 using MovieTicketBooking.Repositories;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace MovieTicketBooking.Scenarious
 {
-    public class BookSpecificMovieScenario : IRunnable
+    public class BookingSpecificMovieScenario : IRunnable
     {
         private MovieRepository _movieRepository;
-
+        private BookingRepository _bookingRepository;
         private Movie _specificMovie;
 
-        private List<BookedTicket> _bookings;
-        private string _pathBookedTickets;
-
-        public BookSpecificMovieScenario(MovieRepository movieRepository, List<BookedTicket> bookings, string pathBookedTickets, Movie specificMovie)
+        public BookingSpecificMovieScenario(MovieRepository movieRepository, BookingRepository bookingRepository, Movie specificMovie)
         {
             _movieRepository = movieRepository;
-            _bookings = bookings;
-            _pathBookedTickets = pathBookedTickets;
+            _bookingRepository = bookingRepository;
             _specificMovie = specificMovie;
         }
 
@@ -36,6 +28,8 @@ namespace MovieTicketBooking.Scenarious
                 _specificMovie.ValidateAvailableSeats();
 
                 Console.Clear();
+                Console.WriteLine($"_____Booking <{_specificMovie.Title}> Movie Scenario_____");
+                Console.WriteLine();
                 Console.WriteLine($"You have selected a movie called: {_specificMovie.Title}");
 
                 /// Enter data
@@ -49,16 +43,17 @@ namespace MovieTicketBooking.Scenarious
                 Console.WriteLine("Enter your phone");
                 string phoneNumber = Console.ReadLine();
 
-                Console.WriteLine("How many seats would you like to book");
+                Console.WriteLine($"How many seats would you like to book <Free sets {_specificMovie.NumberOfFreeSeats}>");
                 int numberToReserveSeats = int.Parse(Console.ReadLine());
 
                 _specificMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _bookings.Add(new BookedTicket(_specificMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats));
-
-                File.WriteAllText(_pathBookedTickets, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
                 _movieRepository.Save();
 
+                _bookingRepository.AddNewBooking(_specificMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats);
+
+                Console.WriteLine();
+                Console.WriteLine($"Your reservation for the movie {_specificMovie.Title} was booked successfully");
             }
             catch (NotEnoughtSeatsEception exception)
             {

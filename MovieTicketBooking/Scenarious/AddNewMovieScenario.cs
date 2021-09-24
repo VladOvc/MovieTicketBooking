@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
+using MovieTicketBooking.Repositories;
 
 namespace MovieTicketBooking.Scenarious
 {
-    class AddNewMovie : IRunnable
+    class AddNewMovieScenario : IRunnable
     {
-        private List<Movie> _movies;
-        private string _pathToMoviesFile;
+        private MovieRepository _movieRepository;
 
-        public AddNewMovie(List<Movie> movies, string pathToMoviesFile)
+        public AddNewMovieScenario(MovieRepository movieRepository)
         {
-            _movies = movies;
-            _pathToMoviesFile = pathToMoviesFile;
+            _movieRepository = movieRepository;
         }
 
         public void Run()
@@ -36,11 +29,9 @@ namespace MovieTicketBooking.Scenarious
             var genreMovie = Console.ReadLine();
 
             Console.WriteLine("Enter Rating:");
-            var ratingMovie = Console.ReadLine();
+            var ratingMovie = float.Parse(Console.ReadLine());
 
-            _movies.Add(new Movie(Guid.NewGuid(), titleMovie, NumberOfFreeSeatsMovie, genreMovie, ratingMovie));
-
-            File.WriteAllText(_pathToMoviesFile, JsonConvert.SerializeObject(_movies, Formatting.Indented));
+            _movieRepository.AddNewMovie(Guid.NewGuid(), titleMovie, NumberOfFreeSeatsMovie, genreMovie, ratingMovie);
 
             Console.WriteLine("To return to the menu press BACKSPACE");
         }

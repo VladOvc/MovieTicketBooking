@@ -1,35 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MovieTicketBooking.Repositories;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieTicketBooking.Scenarious
 {
-    class ViewMovieReservation : IRunnable
+    class ViewMovieComments : IRunnable
     {
-        private List<BookedTicket> _bookings;
-        private Movie _selectedMovie;
+        private MovieRepository _movieRepository;
 
-        public ViewMovieReservation(List<BookedTicket> bookings, Movie selectedMovie)
+        public ViewMovieComments(MovieRepository movieRepository)
         {
-            _bookings = bookings;
-            _selectedMovie = selectedMovie;
+            _movieRepository = movieRepository;
         }
 
         public void Run()
         {
-            var foundBookings = _bookings.Where(item => item.MovieId == _selectedMovie.Id).ToList();
-
-            foreach (var item in foundBookings)
+            try
             {
                 Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Enter movie order in list");
 
-                Console.WriteLine(item.FirstName);
-                Console.WriteLine(item.LastName);
-                Console.WriteLine(item.PhoneNumber);
-                Console.WriteLine(item.FreeSeats);
+                var movieNumber = int.Parse(Console.ReadLine());
+
+                var selectedMovie = _movieRepository.GetAll().ElementAt(movieNumber - 1);
+
+                Console.Clear();
+
+                foreach (var item in selectedMovie.Comments)
+                {
+                    Console.WriteLine(item.Message);
+                }
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("!!!You entered the wrong number!!!");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("To return to the menu press BACKSPACE");
         }
     }
 }
