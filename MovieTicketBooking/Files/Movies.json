@@ -7,12 +7,15 @@
     "Rating": 9.1,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       },
       {
+        "User": "Vlad",
         "Message": "You can watch"
       },
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -25,6 +28,7 @@
     "Rating": 9.0,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -37,6 +41,7 @@
     "Rating": 2.2,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -49,6 +54,7 @@
     "Rating": 8.1,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -61,6 +67,7 @@
     "Rating": 4.1,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -73,6 +80,7 @@
     "Rating": 3.1,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -85,6 +93,7 @@
     "Rating": 4.5,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -97,6 +106,7 @@
     "Rating": 9.9,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -109,6 +119,7 @@
     "Rating": 7.1,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
       }
     ]
@@ -121,7 +132,20 @@
     "Rating": 8.9,
     "Comments": [
       {
+        "User": "Vlad",
         "Message": "You can watch"
+      }
+    ]
+  },
+  {
+    "Title": "Joker",
+    "NumberOfFreeSeats": 40,
+    "Genre": "Action",
+    "Rating": 9.9,
+    "Comments": [
+      {
+        "User": "Vlad",
+        "Message": "Top"
       }
     ]
   }

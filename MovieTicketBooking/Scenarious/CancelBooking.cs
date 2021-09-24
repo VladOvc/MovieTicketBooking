@@ -1,4 +1,5 @@
-﻿using MovieTicketBooking.Exceptions;
+﻿using MovieTicketBooking.Entities;
+using MovieTicketBooking.Exceptions;
 using MovieTicketBooking.Repositories;
 using System;
 using System.Linq;
@@ -26,14 +27,14 @@ namespace MovieTicketBooking.Scenarious
                 Console.WriteLine("What movie was the booking tickets for");
 
                 var movieNumber = int.Parse(Console.ReadLine());
-                var selectedMovie = _movieRepository.GetAll().ElementAt(movieNumber - 1);
+                var selectedMovie = _movieRepository.GetMovieByIndex(movieNumber - 1);
 
                 Console.Clear();
 
                 Console.WriteLine("your phone number on which the reservation was made");
                 string phoneNumberBooking = Console.ReadLine();
 
-                var foundBooking = _bookingRepository.FindBooking(phoneNumberBooking, selectedMovie);
+                var foundBooking = _bookingRepository.FindBookingByCriteria(phoneNumberBooking, selectedMovie);
 
                 /// Render your booking
 

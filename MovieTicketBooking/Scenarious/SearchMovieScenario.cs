@@ -1,4 +1,5 @@
-﻿using MovieTicketBooking.Repositories;
+﻿using MovieTicketBooking.Entities;
+using MovieTicketBooking.Repositories;
 using System;
 
 namespace MovieTicketBooking.Scenarious
@@ -24,7 +25,7 @@ namespace MovieTicketBooking.Scenarious
                 var titleToSearch = Console.ReadLine();
                 var specifier = "0.0";
 
-                Movie foundMovie = _movieRepository.FindMovie(titleToSearch, specifier);
+                Movie foundMovie = _movieRepository.FindMovieByCriteria(titleToSearch, specifier);
 
                 Console.WriteLine();
 
@@ -57,7 +58,7 @@ namespace MovieTicketBooking.Scenarious
                             break;
                         case ConsoleKey.D2:
                         case ConsoleKey.NumPad2:
-                            new ViewSpecificMovieReservation(_bookingRepository, foundMovie).Run();
+                            new ViewSpecificMovieBooking(_bookingRepository, foundMovie).Run();
 
                             Console.WriteLine();
                             RenderMenuForFoundMovie();
@@ -102,6 +103,7 @@ namespace MovieTicketBooking.Scenarious
             Console.WriteLine("1: Book this Movie");
             Console.WriteLine("2: View all reservations for this movie");
             Console.WriteLine("3: View Comments on this movie");
+            Console.WriteLine("Clear Console press BACKSPACE");
             Console.WriteLine("To return to the menu press X");
         }
     }

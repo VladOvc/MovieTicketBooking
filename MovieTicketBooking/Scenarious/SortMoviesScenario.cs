@@ -32,15 +32,15 @@ namespace MovieTicketBooking.Scenarious
             {
                 case ConsoleKey.D1:
                 case ConsoleKey.NumPad1:
-                    _movieRepository.SortMovieTitle();
+                    ///_movieRepository.SortMovieTitle();
                     break;
                 case ConsoleKey.D2:
                 case ConsoleKey.NumPad2:
-                    _movieRepository.SortMovieGenre();
+                    ///_movieRepository.SortMovieGenre();
                     break;
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
-                    _movieRepository.SortMovieRating();
+                    ///_movieRepository.SortMovieRating();
                     break;
             }
         }

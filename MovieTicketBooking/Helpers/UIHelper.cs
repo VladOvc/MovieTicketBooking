@@ -17,8 +17,10 @@ namespace MovieTicketBooking.Helpers
             _movieRepository = movieRepository;
         }
 
-        public void RenderMoviesTable()
+        public void RenderMoviesTable(int page=1, int pageSize=5)
         {
+            ///var movies = _movieRepository.GetPage(page, pageSize);
+
             var movies = _movieRepository.GetAll();
 
             /// Render a table

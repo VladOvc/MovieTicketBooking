@@ -1,4 +1,5 @@
-﻿using MovieTicketBooking.Exceptions;
+﻿using MovieTicketBooking.Entities;
+using MovieTicketBooking.Exceptions;
 using MovieTicketBooking.Repositories;
 using System;
 
@@ -48,9 +49,10 @@ namespace MovieTicketBooking.Scenarious
 
                 _specificMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _movieRepository.Save();
-
                 _bookingRepository.AddNewBooking(_specificMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats);
+
+                _bookingRepository.Save();
+                _movieRepository.Save();
 
                 Console.WriteLine();
                 Console.WriteLine($"Your reservation for the movie {_specificMovie.Title} was booked successfully");

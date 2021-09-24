@@ -23,13 +23,16 @@ namespace MovieTicketBooking.Scenarious
 
                 var movieNumber = int.Parse(Console.ReadLine());
 
-                var selectedMovie = _movieRepository.GetAll().ElementAt(movieNumber - 1);
+                var selectedMovie = _movieRepository.GetMovieByIndex(movieNumber - 1);
 
                 Console.Clear();
 
                 foreach (var item in selectedMovie.Comments)
                 {
-                    Console.WriteLine(item.Message);
+                    Console.WriteLine();
+
+                    Console.WriteLine($"Name: {item.User}");
+                    Console.WriteLine($"Text: {item.Message}");
                 }
             }
             catch (ArgumentOutOfRangeException)

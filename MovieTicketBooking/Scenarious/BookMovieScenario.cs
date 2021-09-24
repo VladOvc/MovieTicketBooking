@@ -14,7 +14,6 @@ namespace MovieTicketBooking.Scenarious
         {
             _movieRepository = movieRepository;
             _bookingRepository = bookingRepository;
-
         }
 
         public void Run()
@@ -28,7 +27,7 @@ namespace MovieTicketBooking.Scenarious
                 Console.WriteLine("Enter movie order in list");
 
                 var movieNumber = int.Parse(Console.ReadLine());
-                var selectedMovie = _movieRepository.GetAll().ElementAt(movieNumber - 1);
+                var selectedMovie = _movieRepository.GetMovieByIndex(movieNumber - 1);
 
                 selectedMovie.ValidateAvailableSeats();
 
@@ -54,10 +53,14 @@ namespace MovieTicketBooking.Scenarious
 
                 selectedMovie.BookRequestedSeats(numberToReserveSeats);
 
-                _movieRepository.Save();
 
                 _bookingRepository.AddNewBooking(selectedMovie.Id, firstName, lastName, phoneNumber, numberToReserveSeats);
 
+                _bookingRepository.Save();
+                _movieRepository.Save();
+
+                Console.WriteLine();
+                Console.WriteLine($"Your reservation for the movie {selectedMovie.Title} was booked successfully");
             }
             catch (NotEnoughtSeatsEception exception)
             {

@@ -1,56 +1,58 @@
-﻿using Newtonsoft.Json;
+﻿using MovieTicketBooking.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace MovieTicketBooking.Repositories
 {
     public class BookingRepository
     {
-        private List<BookedTicket> _bookings;
-
-        private string _pathToBookings = "../../../Files/BookedTickets.json";
+        private FileContext _context;
 
         public BookingRepository()
         {
-            _bookings = JsonConvert.DeserializeObject<List<BookedTicket>>(File.ReadAllText(_pathToBookings));
+            _context = new FileContext();
         }
 
         public List<BookedTicket> GetAll()
         {
-            return _bookings;
+            return _context.Bookings;
         }
 
         public void Save()
         {
-            File.WriteAllText(_pathToBookings, JsonConvert.SerializeObject(_bookings, Formatting.Indented));
+            _context.SaveChanges();
+        }
+
+        internal BookedTicket GetBookingByIndex(int index)
+        {
+            return _context.Bookings.ElementAt(index);
         }
 
         public void Delete(BookedTicket selectBooking)
         {
-            _bookings.Remove(selectBooking);
+            _context.Bookings.Remove(selectBooking);
 
             Save();
         }
 
-        public BookedTicket FindBooking(string phoneNumberBooking, Movie selectedMovie)
+        public BookedTicket FindBookingByCriteria(string phoneNumberBooking, Movie selectedMovie)
         {
-            var foundBooking = _bookings.Where(item => item.PhoneNumber == phoneNumberBooking && item.MovieId == selectedMovie.Id).First();
+            var foundBooking = _context.Bookings.Where(item => item.PhoneNumber == phoneNumberBooking && item.MovieId == selectedMovie.Id).First();
 
             return foundBooking;
         }
 
-        public List<BookedTicket> FoundBookings(Movie selectedMovie)
+        public List<BookedTicket> GetMovieById(Guid movieId)
         {
-            _bookings.Where(item => item.MovieId == selectedMovie.Id).ToList();
+            _context.Bookings.Where(item => item.MovieId == movieId).ToList();
 
-            return _bookings;
+            return _context.Bookings;
         }
 
         public void AddNewBooking(Guid id, string firstName, string lastName, string phoneNumber, int numberToReserveSeats)
         {
-            _bookings.Add(new BookedTicket(id, firstName, lastName, phoneNumber, numberToReserveSeats));
+            _context.Bookings.Add(new BookedTicket(id, firstName, lastName, phoneNumber, numberToReserveSeats));
         }
     }
 }

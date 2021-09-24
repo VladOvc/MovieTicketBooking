@@ -1,27 +1,28 @@
-﻿using MovieTicketBooking.Repositories;
+﻿using MovieTicketBooking.Entities;
+using MovieTicketBooking.Repositories;
 using System;
 using System.Collections.Generic;
 
 namespace MovieTicketBooking.Scenarious
 {
-    class ViewSpecificMovieReservation : IRunnable
+    class ViewSpecificMovieBooking : IRunnable
     {
         private BookingRepository _bookingRepository;
-        private Movie _selectedMovie;
+        private Movie _movie;
 
-        public ViewSpecificMovieReservation(BookingRepository bookingRepository, Movie selectedMovie)
+        public ViewSpecificMovieBooking(BookingRepository bookingRepository, Movie movie)
         {
             _bookingRepository = bookingRepository;
-            _selectedMovie = selectedMovie;
+            _movie = movie;
         }
 
         public void Run()
         {
             Console.WriteLine();
 
-            List<BookedTicket> foundBookings = _bookingRepository.FoundBookings(_selectedMovie);
+            List<BookedTicket> bookings = _bookingRepository.GetMovieById(_movie.Id);
 
-            foreach (var item in foundBookings)
+            foreach (var item in bookings)
             {
                 Console.WriteLine();
 
