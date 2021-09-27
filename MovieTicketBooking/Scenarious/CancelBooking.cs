@@ -1,10 +1,10 @@
-﻿using MovieTicketBooking.Entities;
-using MovieTicketBooking.Exceptions;
-using MovieTicketBooking.Repositories;
-using System;
-using System.Linq;
+﻿using System;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Infrastructure.Repositories;
+using MovieTicketBooking.Domain.Entities;
+using MovieTicketBooking.Domain.Exceptions;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     public class CancelBooking : IRunnable
     {
@@ -66,16 +66,6 @@ namespace MovieTicketBooking.Scenarious
                     default:
                         break;
                 }
-            }
-            catch (NoBookedMovieByPhoneNumberException exception)
-            {
-                Console.WriteLine();
-                Console.WriteLine(exception.Message);
-            }
-            catch (NoBookingException exception)
-            {
-                Console.WriteLine();
-                Console.WriteLine(exception.Message);
             }
             catch (NoSeatsException exception)
             {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTicketBooking.Exceptions
+namespace MovieTicketBooking.Domain.Exceptions
 {
     class NotSearchMovie : Exception
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MovieTicketBooking.Exceptions
+namespace MovieTicketBooking.Domain.Exceptions
 {
     class NoBookingException : Exception
     {

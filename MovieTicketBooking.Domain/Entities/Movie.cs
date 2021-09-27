@@ -1,8 +1,8 @@
-﻿using MovieTicketBooking.Exceptions;
+﻿using MovieTicketBooking.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
-namespace MovieTicketBooking.Entities
+namespace MovieTicketBooking.Domain.Entities
 {
     public class Movie
     {
@@ -28,7 +28,7 @@ namespace MovieTicketBooking.Entities
             Comments = new List<Comment>();
         }
 
-        internal void BookRequestedSeats(int requestedSeats)
+        public void BookRequestedSeats(int requestedSeats)
         {
             if (NumberOfFreeSeats < requestedSeats)
             {
@@ -38,12 +38,12 @@ namespace MovieTicketBooking.Entities
             NumberOfFreeSeats = NumberOfFreeSeats - requestedSeats;
         }
 
-        internal void ReturnBookingSeats(int returnedBooking)
+        public void ReturnBookingSeats(int returnedBooking)
         {
             NumberOfFreeSeats = NumberOfFreeSeats + returnedBooking;
         }
 
-        internal void ValidateAvailableSeats()
+        public void ValidateAvailableSeats()
         {
             if (NumberOfFreeSeats == 0)
             {

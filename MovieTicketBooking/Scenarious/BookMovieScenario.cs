@@ -1,9 +1,9 @@
-﻿using MovieTicketBooking.Exceptions;
-using MovieTicketBooking.Repositories;
-using System;
-using System.Linq;
+﻿using System;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Domain.Exceptions;
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     public class BookMovieScenario : IRunnable
     {

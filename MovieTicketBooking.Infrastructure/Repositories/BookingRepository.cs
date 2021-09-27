@@ -1,9 +1,10 @@
-﻿using MovieTicketBooking.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MovieTicketBooking.Repositories
+using MovieTicketBooking.Domain.Entities;
+
+namespace MovieTicketBooking.Infrastructure.Repositories
 {
     public class BookingRepository
     {

@@ -1,9 +1,10 @@
-﻿using MovieTicketBooking.Entities;
-using MovieTicketBooking.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Domain.Entities;
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     class ViewSpecificMovieBooking : IRunnable
     {

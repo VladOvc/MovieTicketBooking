@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieTicketBooking.Exceptions
+namespace MovieTicketBooking.Domain.Exceptions
 {
     public class NoSeatsException : Exception
     {

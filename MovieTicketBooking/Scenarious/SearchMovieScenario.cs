@@ -1,8 +1,9 @@
-﻿using MovieTicketBooking.Entities;
-using MovieTicketBooking.Repositories;
-using System;
+﻿using System;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Domain.Entities;
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     class SearchMovieScenario : IRunnable
     {

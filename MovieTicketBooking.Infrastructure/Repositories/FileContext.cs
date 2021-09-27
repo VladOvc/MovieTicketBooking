@@ -1,15 +1,17 @@
-﻿using MovieTicketBooking.Entities;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
-namespace MovieTicketBooking.Repositories
+using Newtonsoft.Json;
+
+using MovieTicketBooking.Domain.Entities;
+
+namespace MovieTicketBooking.Infrastructure.Repositories
 {
     public class FileContext
     {
 
-        private readonly string _pathToBookings = "../../../Files/BookedTickets.json";
-        private readonly string _pathToMovies = "../../../Files/Movies.json";
+        private readonly string _pathToBookings = "../../../../MovieTicketBooking.Infrastructure/Files/BookedTickets.json";
+        private readonly string _pathToMovies = "../../../../MovieTicketBooking.Infrastructure/Files/Movies.json";
 
         private readonly List<BookedTicket> _bookings;
         private readonly List<Movie> _movies;

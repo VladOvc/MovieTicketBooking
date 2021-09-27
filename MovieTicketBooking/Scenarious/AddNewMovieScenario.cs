@@ -1,7 +1,8 @@
 ﻿using System;
-using MovieTicketBooking.Repositories;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     class AddNewMovieScenario : IRunnable
     {

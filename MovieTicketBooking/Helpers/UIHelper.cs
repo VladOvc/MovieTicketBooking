@@ -1,11 +1,9 @@
-﻿using MovieTicketBooking.Repositories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieTicketBooking.Helpers
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Helpers
 {
     class UIHelper
     {

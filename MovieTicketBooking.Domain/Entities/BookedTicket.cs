@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieTicketBooking.Entities
+namespace MovieTicketBooking.Domain.Entities
 {
     public class BookedTicket
     {

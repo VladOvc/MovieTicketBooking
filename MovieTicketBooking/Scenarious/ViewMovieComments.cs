@@ -1,8 +1,8 @@
-﻿using MovieTicketBooking.Repositories;
-using System;
-using System.Linq;
+﻿using System;
 
-namespace MovieTicketBooking.Scenarious
+using MovieTicketBooking.Infrastructure.Repositories;
+
+namespace MovieTicketBooking.Application.Scenarious
 {
     class ViewMovieComments : IRunnable
     {

@@ -1,7 +1,8 @@
-﻿using MovieTicketBooking.Helpers;
-using MovieTicketBooking.Repositories;
-using MovieTicketBooking.Scenarious;
-using System;
+﻿using System;
+
+using MovieTicketBooking.Application.Helpers;
+using MovieTicketBooking.Application.Scenarious;
+using MovieTicketBooking.Infrastructure.Repositories;
 
 namespace MovieTicketBooking
 {
